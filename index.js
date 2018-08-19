@@ -16,8 +16,8 @@ app.get('/', (req, res) => {
 //return info for specified video
 app.get('/info/:video', (req, res) => {
     const video = req.params.video;
-    const inputFlags = req.params.flags;
-    const filters = req.params.filters;
+    const inputFlags = req.query.flags;
+    const filters = req.query.filters;
 
     console.log('filters', filters)
     console.log('inputFlags', inputFlags)
