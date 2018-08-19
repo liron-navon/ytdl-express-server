@@ -19,6 +19,9 @@ app.get('/info/:video', (req, res) => {
     const inputFlags = req.params.flags;
     const filters = req.params.filters;
 
+    console.log('filters', filters)
+    console.log('inputFlags', inputFlags)
+
     getInfo(video, inputFlags)
         .then(info => {
             if (isArray(filters)) {
@@ -32,6 +35,9 @@ app.get('/info/:video', (req, res) => {
 // filter to only keep specific formats
 function filterFormats(formatsToKeep, formats) {
     return formats.filter(format => {
+        console.log('**********')
+        console.log(JSON.stringify(format))
+        console.log('**********')
         return formatsToKeep.includes(format.ext);
     })
 }
