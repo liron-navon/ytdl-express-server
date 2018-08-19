@@ -11,7 +11,7 @@ app.get('/video/:video', (req, res) => {
     const url = `https://www.youtube.com/watch?v=${video}`;
     ytdl.getInfo(url, ['--youtube-skip-dash-manifest'], function (err, info) {
         if(err) {
-           return res.status(500).send(err);
+           return send(err);
         };
         return res.send(info);
     })
