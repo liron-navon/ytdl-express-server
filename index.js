@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const ytdl = require('youtube-dl');
 const port = process.env.PORT || 3000;
+const cors = require('cors');
+
+app.use(cors());
 
 // show that the server is healthy
 app.get('/', (req, res) => {

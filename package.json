@@ -10,6 +10,7 @@
   "repository": "https://github.com/liron-navon/ytdl-express-server",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "youtube-dl": "^1.12.2"
   }
