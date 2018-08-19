@@ -17,30 +17,13 @@ app.get('/', (req, res) => {
 app.get('/info/:video', (req, res) => {
     const video = req.params.video;
     const inputFlags = req.query.flags;
-    const filters = req.query.filters;
 
-    console.log('filters', filters)
-    console.log('inputFlags', inputFlags)
+    console.log('inputFlags', inputFlags);
 
     getInfo(video, inputFlags)
-        .then(info => {
-            if (isArray(filters)) {
-                info.formats = filterFormats(filters, info.formats);
-            }
-            res.json(info)
-        })
+        .then(info => res.json(info))
         .catch(err => res.status(500).json(err));
 });
-
-// filter to only keep specific formats
-function filterFormats(formatsToKeep, formats) {
-    return formats.filter(format => {
-        console.log('**********')
-        console.log(JSON.stringify(format))
-        console.log('**********')
-        return formatsToKeep.includes(format.ext);
-    })
-}
 
 // return the info using ytdl
 function getInfo(videoId, flags = ['--youtube-skip-dash-manifest']) {
