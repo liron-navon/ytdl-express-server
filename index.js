@@ -1,5 +1,4 @@
 const express = require('express');
-const isArray = require('lodash/isArray');
 const app = express();
 const ytdl = require('youtube-dl');
 const port = process.env.PORT || 3000;
@@ -17,8 +16,6 @@ app.get('/', (req, res) => {
 app.get('/info/:video', (req, res) => {
     const video = req.params.video;
     const inputFlags = req.query.flags;
-
-    console.log('inputFlags', inputFlags);
 
     getInfo(video, inputFlags)
         .then(info => res.json(info))
