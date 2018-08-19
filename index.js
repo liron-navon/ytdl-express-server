@@ -15,11 +15,12 @@ app.get('/video/:video', (req, res) => {
            res.send(err);
         } else {
             console.log('yays')
+            console.log(info.formats)
            res.send(info.formats)
         }
     })
 
-    res.send('Hello World!');
+    // res.send('Hello World!');
 });
 
 const port = process.env.PORT || 3000;
