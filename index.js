@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const ytdl = require('youtube-dl');
 
+app.get('/', (req, res) => {
+    res.send('Hello')
+})
+
 app.get('/video/:video', (req, res) => {
     const video = req.params.video;
     const url = `https://www.youtube.com/watch?v=${video}`;
