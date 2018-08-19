@@ -3,7 +3,7 @@ const app = express();
 const ytdl = require('youtube-dl');
 
 app.get('/', (req, res) => {
-    res.send('Hello')
+    res.send('Hello ' + process.platform)
 })
 
 app.get('/video/:video', (req, res) => {
