@@ -16,9 +16,9 @@ app.get('/', (req, res) => {
 });
 
 //return info for specified video
-app.get('/info/:video', (req, res) => {
-    const video = req.params.video;
+app.get('/info', (req, res) => {
     const inputFlags = req.query.flags;
+    const video = req.query.url;
 
     getInfo(video, inputFlags)
         .then(info => res.json(info))
@@ -26,10 +26,9 @@ app.get('/info/:video', (req, res) => {
 });
 
 // return the info using ytdl
-function getInfo(videoId, flags = ['--youtube-skip-dash-manifest']) {
+function getInfo(videoURL, flags = ['--youtube-skip-dash-manifest']) {
     return new Promise((resolve, reject) => {
-        const url = `https://www.youtube.com/watch?v=${videoId}`;
-        ytdl.getInfo(url, flags, (err, info) => {
+        ytdl.getInfo(videoURL, flags, (err, info) => {
             err ? reject(err) : resolve(info);
         })
     })
