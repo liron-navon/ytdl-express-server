@@ -26,7 +26,7 @@ app.get('/info', (req, res) => {
 });
 
 // return the info using ytdl
-function getInfo(videoURL, flags = ['--youtube-skip-dash-manifest']) {
+function getInfo(videoURL, flags = []) {
     return new Promise((resolve, reject) => {
         ytdl.getInfo(videoURL, flags, (err, info) => {
             err ? reject(err) : resolve(info);
