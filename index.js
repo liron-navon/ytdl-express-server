@@ -3,6 +3,16 @@ const app = express();
 const ytdl = require('youtube-dl');
 const port = process.env.PORT || 3000;
 const cors = require('cors');
+const httpProxy = require("http-proxy");
+const corsAnywhere = require("cors-anywhere");
+const URL = require('url');
+const proxy = httpProxy.createProxyServer();
+proxy.rejectUnauthorized = false;
+const corsProxy = corsAnywhere.createServer({
+    originWhitelist: [],
+    requireHeaders: [],
+    removeHeaders: []
+});
 
 app.use(cors());
 
@@ -13,6 +23,22 @@ app.get('/', (req, res) => {
         port,
         healthy: true
     });
+});
+
+app.get('/proxy/:proxyUrl*', (req, res) => {
+    // strip the proxy path
+    req.url = req.url.replace('/proxy/', '/');
+    corsProxy.emit('request', req, res)
+
+
+    // const url = new URL(req.query.url);
+    //
+    // console.log('proxying to host: ', url.host)
+    // proxy.web(req, res, { target: req.query.url });
+    // proxy.proxyRequest(req, res, {
+    //     host: url.host,
+    //     port: 8081
+    // });
 });
 
 //return info for specified video
