@@ -1,4 +1,4 @@
-import { extractArrayFromJsonP } from '../jsonp';
+import { extractArrayFromJsonP } from '../../../../helpers/jsonp';
 
 export function youtubeAutocompleteResponseToArray(data) {
     const arrayOfData = extractArrayFromJsonP(data);

@@ -2,7 +2,7 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const mode = NODE_ENV || 'development';
+const mode = process.env.NODE_ENV || 'development';
 const dist = path.join(__dirname, 'dist');
 
 module.exports = {
@@ -22,7 +22,9 @@ module.exports = {
         // Add `.ts` and `.tsx` as a resolvable extension.
         extensions: [".ts", ".js"],
         alias: {
-            helpers: path.resolve(__dirname, 'src/helpers/')
+            helpers: path.resolve(__dirname, 'src/helpers/'),
+            api: path.resolve(__dirname, 'src/api/'),
+            src: path.resolve(__dirname, 'src/')
         }
     },
     module: {

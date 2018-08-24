@@ -6,7 +6,9 @@
     "sourceMap": true,
     "baseUrl": "src",
     "paths": {
-      "helpers/*": [ "helpers/*" ]
+      "helpers/*": [ "helpers/*" ],
+      "api/*": [ "api/*" ],
+      "src/*": [ "./*" ]
     }
   },
   "files": [
