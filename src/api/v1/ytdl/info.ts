@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as ytdl from 'youtube-dl';
+import { proxify } from 'helpers/proxify';
 
 const router = express.Router();
 
@@ -27,7 +28,7 @@ router.get('/info', (req, res) => {
             // map the formats to get only what we need
             formats = formats.map(f => {
                 return {
-                    link: f.url,
+                    link: proxify(req, f.url),
                     extension: f.ext
                 };
             });
@@ -55,7 +56,7 @@ router.get('/info', (req, res) => {
                 width: info.width,
                 fileName: info._filename,
                 extension: info.ext,
-                sourceUrl: info.url,
+                sourceUrl: proxify(req, info.url),
                 codec: info.acodec,
                 extractor: info.extractor
             };
