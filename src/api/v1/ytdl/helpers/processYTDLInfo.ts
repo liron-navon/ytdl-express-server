@@ -4,14 +4,17 @@ import { Request } from 'express';
 const AUDIO_FILE_NOTE = 'DASH audio';
 const DEFAULT_IMAGE = 'https://dc-cdn.s3-ap-southeast-1.amazonaws.com/dc-Cover-kjf3fen2qi100no5fni8t20ll0-20160709115754.Medi.jpeg';
 
+export interface YTDLFormat {
+    link: string;
+    extension: string;
+    formatNote: string;
+}
+
 export interface YTDLInfo {
     uploader: string;
     id: string;
     format: string;
-    formats: {
-        link: string,
-        extension: string
-    }[];
+    formats: YTDLFormat[];
     title: string;
     description: string;
     tags: string[];
@@ -34,11 +37,10 @@ export interface YTDLInfo {
 }
 
 export function processYTDLInfo(request: Request, info: any, type: string): YTDLInfo {
-    let formats = info.formats;
     if (type !== 'all') {
         // filter to get audio/ video only
         const audioOnly = (type === 'audio');
-        formats = formats.filter(f => {
+        info.formats = info.formats.filter(f => {
             if (audioOnly) {
                 return f.format_note === AUDIO_FILE_NOTE;
             } else {
@@ -48,12 +50,11 @@ export function processYTDLInfo(request: Request, info: any, type: string): YTDL
     }
 
     // map the formats to get only what we need
-    formats = formats.map(f => {
-        return {
-            link: proxify(request, f.url),
-            extension: f.ext
-        };
-    });
+    const finalFormats: YTDLFormat[] = info.formats.map(f => ({
+        link: proxify(request, f.url),
+        extension: f.ext,
+        formatNote: f.format_note
+    }));
 
     const previewImage = info.thumbnails && info.thumbnails.length ? info.thumbnails[0].url : DEFAULT_IMAGE;
 
@@ -61,7 +62,7 @@ export function processYTDLInfo(request: Request, info: any, type: string): YTDL
         uploader: info.uploader,
         id: info.display_id,
         format: info.format_id,
-        formats: formats,
+        formats: finalFormats,
         title: info.fulltitle,
         description: info.description,
         tags: info.tags,
