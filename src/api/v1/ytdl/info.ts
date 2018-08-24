@@ -5,7 +5,6 @@ import { proxify } from 'helpers/proxify';
 const router = express.Router();
 
 const AUDIO_FILE_NOTE = 'DASH audio';
-const VIDEO_FILE_NOTE = 'DASH video';
 const DEFAULT_IMAGE = 'https://dc-cdn.s3-ap-southeast-1.amazonaws.com/dc-Cover-kjf3fen2qi100no5fni8t20ll0-20160709115754.Medi.jpeg';
 
 // return info for specified video
@@ -14,14 +13,20 @@ router.get('/info', (req, res) => {
     const videoUrl = req.query.url;
     const type = req.query.type || 'all';
 
+    console.log('TYPE:', type)
+
     getInfo(videoUrl, inputFlags)
         .then((info: any) => {
             let formats = info.formats;
             if (type !== 'all') {
                 // filter to get audio/ video only
-                const formatNoteFilter = type === 'audio' ? AUDIO_FILE_NOTE : VIDEO_FILE_NOTE;
+                const audioOnly = (type === 'audio');
                 formats = formats.filter(f => {
-                    return f.format_note === (type === formatNoteFilter);
+                    if (audioOnly) {
+                        return f.format_note === AUDIO_FILE_NOTE;
+                    } else {
+                        return f.format_note !== AUDIO_FILE_NOTE;
+                    }
                 });
             }
 
