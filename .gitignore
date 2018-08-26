@@ -11,3 +11,5 @@ dist
 # Docker
 Dockerfile
 docker-compose.yml
+
+secret_notes.json
